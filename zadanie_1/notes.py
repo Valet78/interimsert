@@ -13,18 +13,17 @@ else: do_it = True
 while do_it:
     match (action_id()):
         case 1:             # Просмотреть записи за последнюю неделю.
-            print()
-
-            #show_all(current_dict)           
+            show_time(current_dict, 7) 
            
         case 2:             # Просмотреть записи за последний месяц.
-            print()
-            show_sotr(current_dict)             
+            show_time(current_dict, 30)            
 
         case 3:             # Просмотреть все записи.
-            add_dict = add_sotr()
-            current_dict.update(add_dict)
-            save_data('base.csv', current_dict)        
+            show_all(current_dict)
+                  
+
+
+
 
         case 4:             # Добавить запись.
             res_keys = del_sotr(current_dict)
@@ -36,21 +35,12 @@ while do_it:
             del current_dict[res_keys]
             save_data('base.csv', current_dict)          
         
-        case 5:             # Импорт данных из файла.
-            res_imp = file_in_name('Введите имя файла для импорта: ')
-            add_dict = load_data(res_imp)
-            current_dict.update(add_dict)
-            save_data('base.csv', current_dict)            
-            
-        case 6:             # Экспорт данных в файл.
-            res_exp = file_in_name('Введите имя файла для экспорта: ')            
-            save_data(res_exp, current_dict) 
-            print('Экспорт данных выполнен.')    
-
-        case 7:             # Удалить запись.
+        case 5:             # Удалить запись.
 
             print()
         
         case 0:
+            clear()
             print('\nПрограмма будет закрыта. Удачи Вам!\n')
             do_it = False
+            

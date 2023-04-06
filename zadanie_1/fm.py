@@ -1,7 +1,7 @@
 # Работа с файлами
 from csv import *
 from os import getcwd, path
-#from os import path
+
 
 PATHFILE = getcwd() + '\\' 
 
@@ -13,7 +13,7 @@ def load_data(name_f: str) -> dict[str,dict[str, str]]:             # Чтени
         with open(name_f, mode='r', encoding='utf-8') as file:
             reader = DictReader(file, delimiter=";")
             for i in reader:
-                res_dict[i['Id']] = {'Заголовок':i['Заголовок'], 'Заметка':i['Заметка'], 'Дата_записи':i['Дата_записи'], 'Дата_исполнения':i['Дата_исполнения'], 'Статус':i['Статус']}                
+                res_dict[i['Id']] = {'Заголовок':i['Заголовок'], 'Заметка':i['Заметка'], 'Дата_исполнения':i['Дата_исполнения'], 'Статус':i['Статус']}                
             return res_dict
            
     except FileNotFoundError:        
@@ -24,13 +24,13 @@ def add_data(name_f: str, in_txt: list[str]):                       # Добав
     name_f = PATHFILE + name_f
     is_file = path.isfile(name_f)    
     with open(name_f, mode='a', encoding='utf-8', newline='\r') as file:
-        names = ['Id', 'Заголовок', 'Заметка', 'Дата_записи', 'Дата_исполнения', 'Статус']
+        names = ['Id', 'Заголовок', 'Заметка', 'Дата_исполнения', 'Статус']
         file_writer = DictWriter(file, lineterminator="\r", fieldnames=names, delimiter=";") 
         if is_file==False: 
             file_writer.writeheader()            
 
         file_writer.writerow({'Id':in_txt[0], 'Заголовок':in_txt[1], 'Заметка':in_txt[2],
-                            'Дата_записи':in_txt[3], 'Дата_исполнения':in_txt[4], 'Статус':in_txt[5]})   
+                            'Дата_исполнения':in_txt[3], 'Статус':in_txt[4]})   
     
     
 
@@ -38,12 +38,12 @@ def save_data(name_f: str, in_dict: dict[str,dict[str, str]]):      # Экспо
     name_f = PATHFILE + name_f
         
     with open(name_f, mode='w', encoding='utf-8') as file:
-        names = ['Id', 'Заголовок', 'Заметка', 'Дата_записи', 'Дата_исполнения', 'Статус']
+        names = ['Id', 'Заголовок', 'Заметка', 'Дата_исполнения', 'Статус']
         file_writer = DictWriter(file, lineterminator="\r", fieldnames=names, delimiter=";") 
         file_writer.writeheader()
         for i  in in_dict.keys():
             file_writer.writerow({'Id':i, 'Заголовок':in_dict[i]['Заголовок'], 'Заметка':in_dict[i]['Заметка'],
-                                'Дата_записи':in_dict[i]['Дата_записи'], 'Дата_исполнения':in_dict[i]['Дата_исполнения'], 'Статус':in_dict[i]['Статус']})
+                                'Дата_исполнения':in_dict[i]['Дата_исполнения'], 'Статус':in_dict[i]['Статус']})
 
 
 
@@ -51,10 +51,10 @@ def save_data(name_f: str, in_dict: dict[str,dict[str, str]]):      # Экспо
 
 if __name__ == '__main__':
     
-    dict_txt = {'00001': {'Заголовок':'Иванов Сергей', 'Заметка':'авваппвапвп', 'Дата_записи':'11122003', 'Дата_исполнения':'13122003', 'Статус':'нет'},
-                '00002': {'Заголовок':'Петрик Николай', 'Заметка': '2кснпоошшпнпв', 'Дата_записи':'12122010', 'Дата_исполнения':'15122010', 'Статус':'сполнено'}}
-    list_txt = ['00002', 'Сергеев Дмитрий', 'ddddddddddd', '11032012', '12032012', 'активна']
+    dict_txt = {'00001': {'Заголовок':'Иванов Сергей', 'Заметка':'авваппвапвп', 'Дата_исполнения':'13122003', 'Статус':'нет'},
+                '00002': {'Заголовок':'Петрик Николай', 'Заметка': '2кснпоошшпнпв', 'Дата_исполнения':'15122010', 'Статус':'сполнено'}}
+    list_txt = ['00002', 'Сергеев Дмитрий', 'ddddddddddd', '12032012', 'активна']
     
-    save_data('base.csv', dict_txt)
-    #add_data('base.csv', list_txt)
+    #save_data('base.csv', dict_txt)
+    add_data('base.csv', list_txt)
     #load_data('base.csv') 

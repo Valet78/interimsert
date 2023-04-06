@@ -1,5 +1,9 @@
 # Работа с пользователем
+from os import system
 from datetime import datetime as dt
+from datetime import timedelta as dt_delta
+
+clear = lambda: system('CLS')
 
 def action_id() -> int:                 # Вывод запроса действий
     try:
@@ -10,13 +14,11 @@ def action_id() -> int:                 # Вывод запроса действ
         print('2. Просмотреть записи за последний месяц.')
         print('3. Просмотреть все записи.')
         print('4. Добавить запись.')
-        print('5. Импорт данных из файла.')
-        print('6. Экспорт данных в файл.')     
-        print('7. Удалить запись.')   
+        print('5. Удалить запись.')   
         print('________________________')
         print('0. Завершить программу.')
         id_action = int(input('\n Введите необходимое действие: '))
-        while id_action not in [1, 2, 3, 4, 5, 6, 7, 0]:
+        while id_action not in [1, 2, 3, 4, 5, 0]:
             print('Вы ввели некорректные данные. Будьте внимательны.')
             raise ValueError
         else: return id_action
@@ -26,18 +28,33 @@ def action_id() -> int:                 # Вывод запроса действ
         action_id()
 
 
-def show_all(in_dict: dict[str,dict[str, str]]):            # Вывод сотрудником подразделения
-    num = 1
-    seach_data = input('Введите название отдела/подразделения: ')
-    while seach_data == '':
-        print('Вы забыли ввести данные.')
-        seach_data = input('Введите название отдела/подразделения: ')
-        
+def show_all(in_dict: dict[str,dict[str, str]]):            # Вывод свсех записей
+    clear()
     for ii in in_dict.keys():
-        if seach_data in in_dict[ii]['подразделение']:
-            print(num, '. ', in_dict[ii]['Имя Фамилия'], '\t') 
-            num += 1           
-    if num == 1: print('Не существует такого подразделения или сотрудники в нём не числятся.')
+        print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '":\n')
+        print('\t"', in_dict[ii]['Заметка'] , '"\n')
+
+
+def show_time(in_dict: dict[str,dict[str, str]], in_time: int):           # Вывод списка за неделю
+    clear()
+    date_before = dt.now() - dt_delta(in_time)
+    id_before=str(date_before.year)
+    if date_before.month < 10:
+        id_before+='0' +  str(date_before.month)
+    else:
+        id_before+=str(date_before.month)
+    if date_before.day < 10:
+        id_before+='0' +  str(date_before.day)
+    else:
+        id_before+=str(date_before.day)
+    id_before+='0000'
+    for ii in in_dict.keys():
+        if int(ii) > int(id_before):
+            print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '":\n')
+            print('\t"', in_dict[ii]['Заметка'] , '"\n')
+
+
+
 
 
 def show_sotr(in_dict: dict[str,dict[str, str]]):
