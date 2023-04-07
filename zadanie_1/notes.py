@@ -22,7 +22,14 @@ while do_it:
             show_all(current_dict)
 
         case 4:             # Добавить запись.
-            add_zap()
+            add_txt = add_zap()
+            # add_data('base.csv', add_txt)
+            current_dict.update(add_txt)
+            save_data('base.csv', current_dict)   
+           
+        
+        case 5:             # Удалить запись.
+            
             
             """ 
             res_keys = del_sotr(current_dict)
@@ -33,9 +40,6 @@ while do_it:
             add_data('archive.csv', list_del)
             del current_dict[res_keys]
             save_data('base.csv', current_dict)          """ 
-        
-        case 5:             # Удалить запись.
-
             print()
         
         case 0:

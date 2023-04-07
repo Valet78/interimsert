@@ -67,15 +67,13 @@ def add_zap() -> dict[str,dict[str, str]]:                              # Доб
         in_head = input('Заголовок заметки: ')
     
     good_exp = valid_date(in_expdate)                               # Правильно записанная дата
-    while  good_exp !='-1':
+    while  good_exp =='-1':
         print('Выявлена ошибка ввода контрольной даты. Будбте внимательнее и попробуйте снова.')
         in_expdate = input('Срок (дата) исполнения (день.месяц.год): ')
         good_exp = valid_date(in_expdate)
 
-    print(good_exp)
-
-    time = dt.now()
-    id = ''.join([str(time.year), str(time.month), str(time.day), str(time.hour), str(time.minute)])
+    id = valid_id()
+    # id = ''.join([str(time.year), str(time.month), str(time.day), str(time.hour), str(time.minute)])
     res_dict[id] = {'Заголовок':in_head, 'Заметка':in_body, 'Дата_исполнения': good_exp, 'Статус':'активно'}
   
     return res_dict
@@ -90,7 +88,7 @@ def valid_date(date_txt: str) -> str:                                  # Про�
         int_year = int(in_date[2])
 
         if int_day > 0 and int_month > 0 and int_year > 0:
-            if int_month > 12 and int_year > 9999:
+            if int_month > 12 or int_year > 9999:
                 return '-1'
             else:
                 if int_month in [1, 3, 5, 7, 8, 10, 12] and int_day > 31:
@@ -106,15 +104,36 @@ def valid_date(date_txt: str) -> str:                                  # Про�
                     return  rez
 
         else:
-            return '-1'    
-    
+            return '-1'        
     
     except ValueError:
         return '-1'
     
     
-
+def valid_id() -> str:
+    time = dt.now()
+    int_day = int(time.day)
+    int_month = int(time.month)
+    int_year = int(time.year)
+    int_hour = int(time.hour)
+    int_minute = int(time.minute)
     
+    rez = str(time.year)
+    rez += sel(int_month)
+    rez += sel(int_day)
+    rez += sel(int_hour)
+    rez += sel(int_minute)
+    print (rez)
+    return rez
+    
+
+def sel(tt: int) -> str:
+    res = ''
+    if tt < 0:
+        res = '0' + str(tt)
+    else:
+        res = str(tt)
+    return res
 
 
 
@@ -154,4 +173,4 @@ def file_in_name(text: str) -> str:
 
 
 if __name__ == '__main__':
-    add_sotr()
+    print(valid_date('02.11.2023'))
