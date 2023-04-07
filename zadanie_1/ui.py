@@ -54,46 +54,74 @@ def show_time(in_dict: dict[str,dict[str, str]], in_time: int):           # Вы
             print('\t"', in_dict[ii]['Заметка'] , '"\n')
 
 
-
-
-
-def show_sotr(in_dict: dict[str,dict[str, str]]):
-    num = 0
-    seach_data = input('Введите через пробел Фамилию и Имя искомого сотрудника: ')
-    while seach_data == '':
-        print('Вы забыли ввести данные.')
-        seach_data = input('Введите название отдела/подразделения: ')
-
-    for keys, val in in_dict.items():
-        if seach_data in val['Имя Фамилия']:
-            print('ID = ', keys, ':')
-            print('\tФИ сотрудника: ',val['Имя Фамилия'])
-            print('\tЗанимаемая должность: ', val['должность'])
-            print('\tПодразделение: ', val['подразделение'])
-            print('\tтел.:\t', val['номер телефона'])
-            print('\tE-mail:\t', val['e-mail'])
-            num += 1
-    if num == 0: print('Сотрудник с такими данными не обнаружен.')                
-
-
-def add_sotr() -> dict[str,dict[str, str]]:
-    id, res_dict = '', {}
-    print('Ведите данные сотрудника для добавления в базу')
-    in_fi = input('Фамилия и имя (через пробел): ')
-    in_podr = input('Подразделение: ')
-    in_dol = input('Должность: ')
-    in_tel = input('Телефон: ')
-    in_mail = input('E-mail: ')
-
-    while in_fi == '':
-        print('Вы забыли ввести обязательный параметр "Фамилия и имя". Пробуем снова.')
-        in_fi = input('Фамилия и имя (через пробел): ')
+def add_zap() -> dict[str,dict[str, str]]:                              # Добавление новой записи
+    id = ''
+    res_dict = {}
+    print('Вы хотите добавить новую заметку, введите данные...')
+    in_head = input('Заголовок заметки: ')
+    in_body = input('Текст заметки: ')
+    in_expdate = input('Срок (дата) исполнения (день.месяц.год): ')
     
+    while in_head == '':
+        print('Вы забыли ввести обязательный параметр "Заголовок заметки". Пробуем снова.')
+        in_head = input('Заголовок заметки: ')
+    
+    good_exp = valid_date(in_expdate)                               # Правильно записанная дата
+    while  good_exp !='-1':
+        print('Выявлена ошибка ввода контрольной даты. Будбте внимательнее и попробуйте снова.')
+        in_expdate = input('Срок (дата) исполнения (день.месяц.год): ')
+        good_exp = valid_date(in_expdate)
+
+    print(good_exp)
+
     time = dt.now()
     id = ''.join([str(time.year), str(time.month), str(time.day), str(time.hour), str(time.minute)])
-    res_dict[id] = {'Имя Фамилия':in_fi, 'номер телефона':in_tel, 'подразделение':in_podr, 'должность':in_dol, 'e-mail':in_mail}
-
+    res_dict[id] = {'Заголовок':in_head, 'Заметка':in_body, 'Дата_исполнения': good_exp, 'Статус':'активно'}
+  
     return res_dict
+
+
+def valid_date(date_txt: str) -> str:                                  # Проверка правильности ввода контрольной даты 
+    rez = ''
+    try:
+        in_date = date_txt.split('.') 
+        int_day = int(in_date[0])
+        int_month = int(in_date[1])
+        int_year = int(in_date[2])
+
+        if int_day > 0 and int_month > 0 and int_year > 0:
+            if int_month > 12 and int_year > 9999:
+                return '-1'
+            else:
+                if int_month in [1, 3, 5, 7, 8, 10, 12] and int_day > 31:
+                    return '-1'
+                elif int_month in [4, 6, 9, 11] and int_day > 30:
+                    return '-1'
+                elif (int_month == 2 and int_year%4 == 0) and int_day > 29:
+                    return '-1'
+                elif (int_month == 2 and int_year%4 != 0) and int_day > 28:
+                    return '-1'
+                else:
+                    rez = ''.join([in_date[2], in_date[1], in_date[0]])
+                    return  rez
+
+        else:
+            return '-1'    
+    
+    
+    except ValueError:
+        return '-1'
+    
+    
+
+    
+
+
+
+
+
+
+
 
 def del_sotr(in_dict: dict[str,dict[str, str]]) -> str:         # Удаление пользователя
     num = 0
@@ -110,6 +138,10 @@ def del_sotr(in_dict: dict[str,dict[str, str]]) -> str:         # Удалени
         print('Сотрудник с такими данными не обнаружен.')
         return str(num)     
 
+
+
+""" 
+
 def file_in_name(text: str) -> str:
     in_txt = input(text)
     while in_txt == '':
@@ -117,7 +149,7 @@ def file_in_name(text: str) -> str:
         in_txt = input(text)
     in_txt += '.csv'
     return in_txt
-
+ """
 
 
 
