@@ -33,17 +33,11 @@ while do_it:
         
         case 5:             # Удалить запись.
             clear()
-            
-            """ 
-            res_keys = del_sotr(current_dict)
-            if res_keys != '0':
-                list_del = [res_keys, current_dict[res_keys]['Имя Фамилия'], current_dict[res_keys]['номер телефона'],
-                            current_dict[res_keys]['подразделение'], current_dict[res_keys]['должность'], current_dict[res_keys]['e-mail']]
-                
-            add_data('archive.csv', list_del)
-            del current_dict[res_keys]
-            save_data('base.csv', current_dict)          """ 
-            print()
+            id_str = show_del(current_dict)
+            clear()
+            current_dict = del_str(id_str, current_dict)
+            save_data('base.csv', current_dict) 
+                        
         
         case 0:
             clear()

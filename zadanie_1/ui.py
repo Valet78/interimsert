@@ -30,8 +30,29 @@ def action_id() -> int:                 # Вывод запроса действ
 
 def show_all(in_dict: dict[str,dict[str, str]]):            # Вывод свсех записей
     for ii in in_dict.keys():
-        print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '":\n')
-        print('\t"', in_dict[ii]['Заметка'] , '"\n')
+        print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '": "', in_dict[ii]['Заметка'] , '"\t', 'Срок до ', rev_date(in_dict[ii]['Дата_исполнения']))
+
+
+def show_del(in_dict: dict[str,dict[str, str]]) -> str:
+    list_str = []
+    dict_id = {}
+    nom_str = 1
+    try:
+        for ii in in_dict.keys():
+            print(nom_str, '. Заметка от ', rev_date(ii), '"', in_dict[ii]['Заголовок'], '": "', in_dict[ii]['Заметка'] , '"')
+            dict_id[nom_str] = ii
+            list_str.append(nom_str)
+            nom_str += 1
+        id_action = int(input('\n Введите номер записи, которую Вы желаете удалить: '))
+        while id_action not in list_str:
+            print('Вы ввели некорректные данные. Будьте внимательны.')
+            raise ValueError
+        else: 
+            return dict_id[id_action]
+    
+    except ValueError:
+        print('Выбрать можно только имеющиеся строки. Попробуйте снова.\n')
+        show_del(in_dict)
 
 
 def show_time(in_dict: dict[str,dict[str, str]], in_time: int):           # Вывод списка за неделю
@@ -43,8 +64,7 @@ def show_time(in_dict: dict[str,dict[str, str]], in_time: int):           # Вы
     
     for ii in in_dict.keys():
         if int(ii) > int(id_before):
-            print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '":\n')
-            print('\t"', in_dict[ii]['Заметка'] , '"\n')
+            print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '": "', in_dict[ii]['Заметка'] , '"\t',  'Срок до ', rev_date(in_dict[ii]['Дата_исполнения']))
 
 
 def add_zap() -> dict[str,dict[str, str]]:                              # Добавление новой записи
@@ -66,7 +86,7 @@ def add_zap() -> dict[str,dict[str, str]]:                              # Доб
         good_exp = valid_date(in_expdate)
 
     id = valid_id()
-    res_dict[id] = {'Заголовок':in_head, 'Заметка':in_body, 'Дата_исполнения': good_exp, 'Статус':'активно'}
+    res_dict[id] = {'Заголовок':in_head, 'Заметка':in_body, 'Дата_исполнения': good_exp}
   
     return res_dict
 
@@ -127,42 +147,21 @@ def sel(tt: int) -> str:
         res = str(tt)
     return res
 
+def rev_date(in_txt: str) -> str:
+    year = in_txt[0:4]
+    month = in_txt[4:6]
+    day = in_txt[6:8]
 
+    return ''.join([day, '.', month, '.', year, ' г.'])
 
-
-
-
-
-
-def del_sotr(in_dict: dict[str,dict[str, str]]) -> str:         # Удаление пользователя
-    num = 0
-    del_txt = input('Введите Фамилию и Имя сотрудника, которого Вы хотите удалить: ')
-    while del_txt == '':
-        print('Вы забыли ввести данные.')
-        del_txt = input('Введите Фамилию и Имя сотрудника, которого Вы хотите удалить: ')
+def del_str(ind_zap: str, in_dict: dict[str,dict[str, str]]) -> dict[str,dict[str, str]]:
     
-    for keys, val in in_dict.items():
-        if del_txt in val['Имя Фамилия']:
-            num += 1
-            return keys            
-    if num == 0: 
-        print('Сотрудник с такими данными не обнаружен.')
-        return str(num)     
-
-
-
-""" 
-
-def file_in_name(text: str) -> str:
-    in_txt = input(text)
-    while in_txt == '':
-        print('Вы забыли ввести данные.')
-        in_txt = input(text)
-    in_txt += '.csv'
-    return in_txt
- """
-
+    print('Заметка от ', rev_date(ind_zap), '"', in_dict[ind_zap]['Заголовок'], '": "', in_dict[ind_zap]['Заметка'] , '"')
+    print('Будет удалена по Вашему запросу...')
+    del in_dict[ind_zap]
+    return in_dict
 
 
 if __name__ == '__main__':
-    print(valid_date('02.11.2023'))
+    # print(valid_date('02.11.2023'))
+    print(rev_date('202312241255'))
