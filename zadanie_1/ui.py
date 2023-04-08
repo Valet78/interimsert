@@ -1,9 +1,9 @@
 # Работа с пользователем
-from os import system
+
 from datetime import datetime as dt
 from datetime import timedelta as dt_delta
 
-clear = lambda: system('CLS')
+
 
 def action_id() -> int:                 # Вывод запроса действий
     try:
@@ -29,25 +29,18 @@ def action_id() -> int:                 # Вывод запроса действ
 
 
 def show_all(in_dict: dict[str,dict[str, str]]):            # Вывод свсех записей
-    clear()
     for ii in in_dict.keys():
         print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '":\n')
         print('\t"', in_dict[ii]['Заметка'] , '"\n')
 
 
 def show_time(in_dict: dict[str,dict[str, str]], in_time: int):           # Вывод списка за неделю
-    clear()
     date_before = dt.now() - dt_delta(in_time)
-    id_before=str(date_before.year)
-    if date_before.month < 10:
-        id_before+='0' +  str(date_before.month)
-    else:
-        id_before+=str(date_before.month)
-    if date_before.day < 10:
-        id_before+='0' +  str(date_before.day)
-    else:
-        id_before+=str(date_before.day)
+    id_before = str(date_before.year)
+    id_before += sel(date_before.month)
+    id_before += sel(date_before.day)
     id_before+='0000'
+    
     for ii in in_dict.keys():
         if int(ii) > int(id_before):
             print('Заметка id=', ii, ' "', in_dict[ii]['Заголовок'], '":\n')
@@ -73,7 +66,6 @@ def add_zap() -> dict[str,dict[str, str]]:                              # Доб
         good_exp = valid_date(in_expdate)
 
     id = valid_id()
-    # id = ''.join([str(time.year), str(time.month), str(time.day), str(time.hour), str(time.minute)])
     res_dict[id] = {'Заголовок':in_head, 'Заметка':in_body, 'Дата_исполнения': good_exp, 'Статус':'активно'}
   
     return res_dict
@@ -112,24 +104,24 @@ def valid_date(date_txt: str) -> str:                                  # Про�
     
 def valid_id() -> str:
     time = dt.now()
-    int_day = int(time.day)
-    int_month = int(time.month)
-    int_year = int(time.year)
-    int_hour = int(time.hour)
-    int_minute = int(time.minute)
+    int_day = time.day
+    int_month = time.month
+    int_year = time.year
+    int_hour = time.hour
+    int_minute = time.minute
     
-    rez = str(time.year)
+    rez = str(int_year)
     rez += sel(int_month)
     rez += sel(int_day)
     rez += sel(int_hour)
     rez += sel(int_minute)
-    print (rez)
+    
     return rez
     
 
 def sel(tt: int) -> str:
     res = ''
-    if tt < 0:
+    if tt < 10:
         res = '0' + str(tt)
     else:
         res = str(tt)

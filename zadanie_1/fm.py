@@ -1,6 +1,6 @@
 # Работа с файлами
 from csv import *
-from os import getcwd, path
+from os import getcwd #, path
 
 
 PATHFILE = getcwd() + '\\' 
@@ -19,7 +19,7 @@ def load_data(name_f: str) -> dict[str,dict[str, str]]:             # Чтени
     except FileNotFoundError:        
         return res_dict           
 
-
+""" 
 def add_data(name_f: str, in_txt: list[str]):                       # Добавление строки 
     name_f = PATHFILE + name_f
     is_file = path.isfile(name_f)    
@@ -31,7 +31,7 @@ def add_data(name_f: str, in_txt: list[str]):                       # Добав
 
         file_writer.writerow({'Id':in_txt[0], 'Заголовок':in_txt[1], 'Заметка':in_txt[2],
                             'Дата_исполнения':in_txt[3], 'Статус':in_txt[4]})   
-    
+     """
     
 
 def save_data(name_f: str, in_dict: dict[str,dict[str, str]]):      # Экспорт всех данных
@@ -55,6 +55,6 @@ if __name__ == '__main__':
                 '00002': {'Заголовок':'Петрик Николай', 'Заметка': '2кснпоошшпнпв', 'Дата_исполнения':'15122010', 'Статус':'сполнено'}}
     list_txt = ['00002', 'Сергеев Дмитрий', 'ddddddddddd', '12032012', 'активна']
     
-    #save_data('base.csv', dict_txt)
-    add_data('base.csv', list_txt)
-    #load_data('base.csv') 
+    # save_data('base.csv', dict_txt)
+    # add_data('base.csv', list_txt)
+    # load_data('base.csv') 

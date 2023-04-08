@@ -1,8 +1,8 @@
 from fm import *
 from ui import *
+from os import system
 
-
-
+clear = lambda: system('CLS')
 current_dict = load_data('base.csv')
 
 if len(current_dict) == 0:
@@ -13,23 +13,26 @@ else: do_it = True
 while do_it:
     match (action_id()):
         case 1:             # Просмотреть записи за последнюю неделю.
+            clear()
             show_time(current_dict, 7) 
            
         case 2:             # Просмотреть записи за последний месяц.
+            clear()
             show_time(current_dict, 30)            
 
         case 3:             # Просмотреть все записи.
+            clear()
             show_all(current_dict)
 
         case 4:             # Добавить запись.
+            clear()
             add_txt = add_zap()
-            # add_data('base.csv', add_txt)
             current_dict.update(add_txt)
             save_data('base.csv', current_dict)   
            
         
         case 5:             # Удалить запись.
-            
+            clear()
             
             """ 
             res_keys = del_sotr(current_dict)
