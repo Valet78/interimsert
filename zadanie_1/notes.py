@@ -29,11 +29,18 @@ while do_it:
             add_txt = add_zap()
             current_dict.update(add_txt)
             save_data('base.csv', current_dict)   
-           
-        
-        case 5:             # Удалить запись.
+
+        case 5:             # Редактирование записи
             clear()
-            id_str = show_del(current_dict)
+            id_str = get_id(current_dict)
+            clear()
+            current_dict = edit_zap(id_str, current_dict)
+            save_data('base.csv', current_dict) 
+
+        
+        case 6:             # Удалить запись.
+            clear()
+            id_str = get_id(current_dict)
             clear()
             current_dict = del_str(id_str, current_dict)
             save_data('base.csv', current_dict) 
