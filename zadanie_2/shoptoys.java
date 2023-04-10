@@ -8,15 +8,13 @@ public class shoptoys {
         UI intface = new UI();
         FM fMan = new FM();
         HashMap <String, Toys> mapToys = new HashMap<String, Toys>();
-        mapToys = fMan.LoadFile();
-        System.out.println(mapToys);
-        int ind = intface.Hello();
+        mapToys = fMan.LoadFile();      // Загрузка данных из файла
         
+        int ind = intface.Hello();      // Приветствие и выбор Гость или Сотрудник
+               
+        intface.SelUs(ind, mapToys);    //
         
-        mapToys.put("02012023", new Toys("Tosha"));
-        intface.SelUs(ind, mapToys);
-        
-        fMan.SaveFile(mapToys);
+        // fMan.SaveFile(mapToys);
         
         
 

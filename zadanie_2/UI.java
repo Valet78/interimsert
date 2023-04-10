@@ -7,11 +7,11 @@ import java.util.Scanner;
 public class UI {
     // Scanner inStr = new Scanner(System.in);
     public UI(){}
-
-    public int Hello(){
+    
+    public int Hello(){                         // Приветствие и выбор Гость или Сотрудник
         int input = 0;
         Scanner inStr = new Scanner(System.in);
-
+        Clr();
         System.out.println();
         System.out.println("Добро пожаловать в магазин игрушек HappyToys.");
         System.out.println("Иногда мы проводим розыгрыш игрушек, и у Вас есть шанс");
@@ -32,7 +32,7 @@ public class UI {
     public int Guest(){
         int input = 0;
         Scanner inStr1 = new Scanner(System.in);
-        
+        Clr();
         System.out.println();
         System.out.println("Вы желаете:");
         System.out.println("1. Выбрать игрушки для покупки.");
@@ -46,15 +46,15 @@ public class UI {
         return input;        
     }    
     
-    public void SelUs(int ind, HashMap <String, Toys> inMap){
+    public void SelUs(int ind, HashMap <String, Toys> inMap){   // Разделение по функционалу
         
         switch (ind){
-            case 1:
+            case 1:                 // Гость 
                 ind = Guest();
                 GuestTodo(ind, inMap);
                 
             break;
-            case 2:
+            case 2:                 // Сотрудник
                 // fMan.LoadFile();
 
 
@@ -64,11 +64,19 @@ public class UI {
     }
 
 
-    public void GuestTodo(int inSel, HashMap <String, Toys> inMap){
-
+    public void GuestTodo(int inSel, HashMap <String, Toys> inMap){     // Действий Гостя
+        int id = 1;
         switch (inSel){
             case 1:
-                // System.out.println(inMap.get("02012023").GetName() + " - " +  inMap.get("02012023").GetId());
+                Clr();
+                System.out.println("Вот какие игрушки есть у нас в магазине:");    
+                for(HashMap.Entry <String, Toys> item : inMap.entrySet()){
+                    System.out.printf("%d. %s в количестве %d шт. по цене %.2f руб. за шт.\n", id, item.getValue().GetName(), item.getValue().GetNumber(), item.getValue().GetPrice());
+                    id ++;
+                }
+                System.out.println("\n Сделайте свой выбор и внесите указанную сумму.");
+            
+            // System.out.println(inMap.get("02032023").GetName() + " - " +  inMap.get("02032023").GetNumber());
                 
             break;
             case 2:
@@ -79,4 +87,8 @@ public class UI {
 
     }
     
+    private void Clr(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 }
