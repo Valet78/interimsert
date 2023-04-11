@@ -18,9 +18,14 @@ public class shoptoys {
             switch (ind){
                 case 1:                 // Гость 
                     ind = intface.Guest();
-                    mapToys = intface.GuestTodo(ind, mapToys); // Продажа игрушки
-                    fMan.SaveFile(mapToys);
+                    mapTemp = intface.GuestTodo(ind, mapToys); // Продажа игрушки
+                    // Если были внесены изменения в базу - пезаписываем её
+                    if (intface.GetStatus()) {
+                        fMan.SaveFile(mapTemp);
+                        mapToys = fMan.LoadFile();
+                    }       
                     break;
+                
                 case 2:                 // Сотрудник
                     ind = intface.Sotr();
                     mapTemp = intface.SotrToDo(ind, mapToys);

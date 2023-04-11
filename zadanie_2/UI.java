@@ -4,13 +4,16 @@ package zadanie_2;
 // import java.util.Calendar;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 
 public class UI {
     private boolean status = false;
-    static int numPlay = 0;
+    static int numPlay = 0, rand = 0;
     
     public UI(){}
 
@@ -61,8 +64,10 @@ public class UI {
     }    
     
     public HashMap <String, Toys> GuestTodo(int inSel, HashMap <String, Toys> inMap){     // Действий Гостя
-        int id = 1, input = 0;
+        int id = 1, input = 0, kol = 0;
+        String indt = "";
         play pLay = new play();
+        Random rnd = new Random();
         Scanner inStr2 = new Scanner(System.in);
         HashMap<Integer,String> numStrok = new HashMap<Integer,String>();
         switch (inSel){
@@ -80,14 +85,62 @@ public class UI {
                     System.out.println("Введите номер строки!");
                     input = inStr2.nextInt();
                 }
-                inMap.remove(numStrok.get(input));      
-                break;
-            case 2:                 // Розыгрыш
-                HashMap<String, Integer> playList = new HashMap<String, Integer>();
-                playList = pLay.SumToys(inMap);
-                playList.forEach((kk, vv) -> numPlay += vv);
-                
+                indt = numStrok.get(input);
+                kol = inMap.get(indt).GetNumber();
+                System.out.print("Введите необходимое количество: ");
+                input = inStr2.nextInt();
+                while(input > kol){
+                    System.out.print("У нас нет такого количества. Введите адекватное значение: ");
+                    input = inStr2.nextInt();
+                }
+                System.out.printf("С Вас %.2f руб. Не забудбте их передать сотруднику магазина.", inMap.get(indt).GetPrice() * input);
+                inMap.get(indt).SetNumber(kol - input);
 
+                this.status = true;                  
+
+                System.out.println("\nДля продолжения нажмите Enter.");
+                inStr2.nextLine();
+                break;
+                                // ******************    Розыгрыш    ******************** //
+                case 2:                  
+                HashMap<String, Integer> playMap = new HashMap<String, Integer>();
+                List <String> playList = new ArrayList<String>();
+                List <String> rndList = new ArrayList<String>();
+                List <Integer> indList = new ArrayList<Integer>();
+                int size = playList.size();
+
+                playMap = pLay.SumToys(inMap);
+                playMap.forEach((kk, vv) -> {
+                    for (int ii = 0; ii < vv; ii++){
+                        playList.add(kk);
+                    }                
+                });
+                
+                size = playList.size();
+                System.out.printf("Итак, в разыгрыше участвует %d игрушек из %d.\n", size, pLay.GetSumm());
+                System.out.print("Система случайным образом распределила Вам следующую игрушку:");
+                rand = rnd.nextInt(0,  size);
+                System.out.println(inMap.get(playList.get(rand)).GetName() + ". Поздравляем!");
+                id = inMap.get(playList.get(rand)).GetNumber();
+                if (id > 0){
+                    inMap.get(playList.get(rand)).SetNumber(id - 1);
+                }
+                this.status = true;
+
+                /* 
+                for (int ii = 0; ii < size; ii++){
+                    rand = rnd.nextInt(0,  size);
+                    while (indList.contains(rand)){
+                        rand = rnd.nextInt(0,  size + 1);
+                    }
+                    indList.add(rand);
+                }
+                                        
+                 */
+                
+                
+                System.out.println("\nДля продолжения нажмите Enter.");
+                inStr2.nextLine();
                 break;
         }
         return inMap;

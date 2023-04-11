@@ -17,7 +17,7 @@ public class play {
         inMap.forEach((kk, vv) -> {summ += vv.GetNumber(); });
         // В розыгрыше будет участвовать только 15% от общей суммы
         inMap.forEach((kk, vv) -> {
-            int temp = (int) ((summ / 100) * (vv.GetNumber() * 0.15));
+            int temp = (int) ((vv.GetNumber() * vv.GetRate()) / 100 );
             sumType.put(kk, temp);
         });
 
