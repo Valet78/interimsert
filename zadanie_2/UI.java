@@ -105,8 +105,8 @@ public class UI {
                 case 2:                  
                 HashMap<String, Integer> playMap = new HashMap<String, Integer>();
                 List <String> playList = new ArrayList<String>();
-                List <String> rndList = new ArrayList<String>();
-                List <Integer> indList = new ArrayList<Integer>();
+                // List <String> rndList = new ArrayList<String>();
+                // List <Integer> indList = new ArrayList<Integer>();
                 int size = playList.size();
 
                 playMap = pLay.SumToys(inMap);

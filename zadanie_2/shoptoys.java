@@ -8,7 +8,6 @@ public class shoptoys {
     public static void main(String[] args) {
         UI intface = new UI();
         FM fMan = new FM();
-        play pL = new play();
         HashMap <String, Toys> mapToys = new HashMap<String, Toys>();
         HashMap <String, Toys> mapTemp = new HashMap<String, Toys>();
         mapToys = fMan.LoadFile();      // Загрузка данных из файла
